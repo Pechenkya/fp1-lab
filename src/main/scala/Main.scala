@@ -16,15 +16,19 @@ object Set:
     else
       NonEmpty(a, st)
 
-  // non-tailrec TODO
+
   def intersect[A](left: Set[A], right: Set[A]): Set[A] = 
-    left match
-      case Empty => Empty
-      case NonEmpty(b, tail) => 
-        if contains(right, b) then
-          NonEmpty(b, intersect(tail, right))
-        else
-          intersect(tail, right)
+    @tailrec
+    def rec[A](l: Set[A], r: Set[A],
+      result: Set[A]): Set[A] = left match
+        case Empty => result
+        case NonEmpty(x, tail) =>
+          if contains(r, x) then
+            rec(tail, r, NonEmpty(x, result))
+          else
+            rec(tail, r, result)
+    
+    rec(left, right, Empty)
 
 
   @tailrec
