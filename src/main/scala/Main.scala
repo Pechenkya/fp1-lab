@@ -9,28 +9,41 @@ enum Set[+A]:
 
 object Set:
   def makeSet[A](xs: A*): Set[A] = ???
-    // if xs.isEmpty then
-    //   Empty
-    // else 
-    //   (xs., makeSet[]())
     
-  def add[A](s: Set[A], a: A): Set[A] = 
-    if contains(s, a) then 
-      s
+  def add[A](st: Set[A], a: A): Set[A] = 
+    if contains(st, a) then 
+      st
     else
-      NonEmpty(a, s)
+      NonEmpty(a, st)
 
-  def intersect[A](l: Set[A], r: Set[A]): Set[A] = ???
+  // non-tailrec TODO
+  def intersect[A](left: Set[A], right: Set[A]): Set[A] = 
+    left match
+      case Empty => Empty
+      case NonEmpty(b, tail) => 
+        if contains(right, b) then
+          NonEmpty(b, intersect(tail, right))
+        else
+          intersect(tail, right)
 
-  def union[A](l: Set[A], r: Set[A]): Set[A] = ???
+  @tailrec
+  def union[A](left: Set[A], right: Set[A]): Set[A] = 
+    left match
+      case Empty => right
+      case NonEmpty(b, tail) => union(tail, add(right, b))
 
   @tailrec
   def contains[A](s: Set[A], a: A): Boolean = 
     s match
       case Empty => false
-      case NonEmpty(b, set) => if(a == b) then true else contains(set, a)
+      case NonEmpty(b, set) => 
+        if (a == b) then 
+          true 
+        else 
+          contains(set, a)
 
   def map[A, B](b: Set[A], f: A => B): Set[B] = ???
+
 
 @main def hello: Unit = 
   print("Still compiling :)")
