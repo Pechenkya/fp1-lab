@@ -9,6 +9,11 @@ enum Set[+A]:
 
 object Set:
   def makeSet[A](xs: A*): Set[A] = ???
+    // if xs.isEmpty then
+    //   Empty
+    // else 
+    //   (xs., makeSet[]())
+    
 
   def add[A](s: Set[A], a: A): Set[A] = ???
 
@@ -16,7 +21,11 @@ object Set:
 
   def union[A](l: Set[A], r: Set[A]): Set[A] = ???
 
-  def contains[A](s: Set[A], a: A): Boolean = ???
+  @tailrec
+  def contains[A](s: Set[A], a: A): Boolean = 
+    s match
+      case Empty => false
+      case NonEmpty(b, set) => if(a == b) then true else contains(set, a)
 
   def map[A, B](b: Set[A], f: A => B): Set[B] = ???
 
