@@ -26,11 +26,13 @@ object Set:
         else
           intersect(tail, right)
 
+
   @tailrec
   def union[A](left: Set[A], right: Set[A]): Set[A] = 
     left match
       case Empty => right
       case NonEmpty(b, tail) => union(tail, add(right, b))
+
 
   @tailrec
   def contains[A](s: Set[A], a: A): Boolean = 
@@ -42,7 +44,16 @@ object Set:
         else 
           contains(set, a)
 
-  def map[A, B](b: Set[A], f: A => B): Set[B] = ???
+
+  def map[A, B](base: Set[A], f: A => B): Set[B] =
+    @tailrec
+    def rec[A, B](bs: Set[A], 
+      f: A => B, result: Set[B]): Set[B] = 
+        bs match
+          case Empty => result
+          case NonEmpty(x, tail) => rec(tail, f, add(result, x))
+
+    rec(base, f, Empty)
 
 
 @main def hello: Unit = 
