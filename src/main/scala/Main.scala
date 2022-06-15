@@ -4,7 +4,7 @@ import scala.annotation.tailrec
 
 enum Set[+A]:
   case Empty
-  case NonEmpty private (a: A, rest: Set[A])
+  case NonEmpty private[Set] (a: A, rest: Set[A])
 
 
 object Set:
@@ -14,8 +14,11 @@ object Set:
     // else 
     //   (xs., makeSet[]())
     
-
-  def add[A](s: Set[A], a: A): Set[A] = ???
+  def add[A](s: Set[A], a: A): Set[A] = 
+    if contains(s, a) then 
+      s
+    else
+      NonEmpty(a, s)
 
   def intersect[A](l: Set[A], r: Set[A]): Set[A] = ???
 
