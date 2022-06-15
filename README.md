@@ -1,5 +1,8 @@
 # Lab 1 : Functional Programming on Scala
-**Name, Group:** Bondar Petro, FI-03
+**Name:** Bondar Petro
+
+**Group:** FI-03
+
 **Variant:** 13
 
 ## Task
