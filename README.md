@@ -13,5 +13,5 @@ Set[+A].
 2. add(s: Set[A], a: A): Set[A]
 3. intersect(l: Set[A], r: Set[A]): Set[A]
 4. union(l: Set[A], r: Set[A]): Set[A]
-5. contains(s: Set[A], a: A): Boolean
+5. contains(s: Set[A], a: A): Boolean (complete as member method)
 6. map(b:  Set[A], f: A => B): Set[B]

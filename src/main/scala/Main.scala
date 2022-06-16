@@ -19,6 +19,21 @@ enum Set[+A]:
 
     cont_rec(this, a)
 
+
+  override def toString(): String = 
+    @tailrec
+    def build_out(set: Set[A], result: StringBuilder): String =
+      set match
+        case Empty => 
+          (result += '}')
+        case NonEmpty(x, tail) =>
+          build_out(
+            tail, 
+            (result ++= x) ++= (if tail != Empty then ", " else ' ')
+          )
+    
+    build_out(this, new StringBuilder("{ "))
+
 object Set:
   def makeSet[A](xs: A*): Set[A] = ???
     
@@ -62,4 +77,4 @@ object Set:
 
 
 @main def hello: Unit = 
-  print("Still compiling :)")
+  println("Still compiling :)")
