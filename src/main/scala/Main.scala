@@ -30,7 +30,7 @@ enum Set[+A]:
     
     sz_rec(this, 0)
   
-    
+
   override def toString(): String = 
     @tailrec
     def build_out[A](set: Set[A], res: StringBuilder): String =
@@ -51,7 +51,7 @@ object Set:
   def apply[A](xs: A*): Set[A] =
     makeSet[A](xs*)      
 
-  private def makeSet[A](xs: A*): Set[A] = 
+  def makeSet[A](xs: A*): Set[A] = 
     // Remove duplicates to build a set
     xs.distinct.foldRight(Empty: Set[A])
       ((x, tail) => NonEmpty(x, tail))
