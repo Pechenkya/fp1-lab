@@ -20,22 +20,42 @@ enum Set[+A]:
     cont_rec(this, a)
 
 
+  def size[A](): Long =
+    @tailrec
+    def sz_rec[A](set: Set[A], res: Long): Long =
+      set match
+        case Empty => res
+        case NonEmpty(x, tail) =>
+          sz_rec(tail, 1 + res)
+    
+    sz_rec(this, 0)
+  
+    
   override def toString(): String = 
     @tailrec
-    def build_out(set: Set[A], result: StringBuilder): String =
+    def build_out[A](set: Set[A], res: StringBuilder): String =
       set match
         case Empty => 
-          (result += '}')
+          (res += '}').result
         case NonEmpty(x, tail) =>
           build_out(
             tail, 
-            (result ++= x) ++= (if tail != Empty then ", " else ' ')
+            (res.append(x)) 
+              ++= (if tail != Empty then ", " else " ")
           )
     
     build_out(this, new StringBuilder("{ "))
 
+  
 object Set:
-  def makeSet[A](xs: A*): Set[A] = ???
+  def apply[A](xs: A*): Set[A] =
+    makeSet[A](xs*)      
+
+  private def makeSet[A](xs: A*): Set[A] = 
+    // Remove duplicates to build a set
+    xs.distinct.foldRight(Empty: Set[A])
+      ((x, tail) => NonEmpty(x, tail))
+
     
   def add[A](st: Set[A], a: A): Set[A] = 
     if st.contains(a) then 
@@ -77,4 +97,6 @@ object Set:
 
 
 @main def hello: Unit = 
-  println("Still compiling :)")
+  println(
+    Set(1, 2, 3) == Set(3, 2 ,1)
+  )
