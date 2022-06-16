@@ -96,7 +96,18 @@ object Set:
     rec(base, f, Empty)
 
 
+  @tailrec
+  def is_subset[A](left: Set[A], right: Set[A]): Boolean = 
+    left match
+      case Empty => true
+      case NonEmpty(x, tail) =>
+        if(!right.contains(x))
+          false
+        else
+          is_subset(tail, right)
+
+
 @main def hello: Unit = 
   println(
-    Set(1, 2, 3) == Set(3, 2 ,1)
+    "It compiles! :)"
   )
