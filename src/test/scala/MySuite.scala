@@ -23,6 +23,14 @@ class SetSuite extends ScalaCheckSuite {
   }
 
 
+  property("size of set constructed with sequence is equal to number of unique elements in sequence") {
+    forAll{
+      (xs: Seq[Int]) =>
+        Set(xs*).size() == xs.distinct.length
+    }
+  }
+
+
   property("after adding element that already in set, it's size shouldn't increase") {
     forAll{
       (set: Set[Int], x: Int) =>
@@ -33,7 +41,7 @@ class SetSuite extends ScalaCheckSuite {
     }
   }
 
-  
+
   property("set should contain object that was added") {
     forAll {
       (set: Set[Int], x: Int) =>
@@ -57,4 +65,50 @@ class SetSuite extends ScalaCheckSuite {
     }
   }
 
+
+  property("intersection should return subset of parameters") {
+    forAll{
+      (left: Set[Int], right: Set[Int]) =>
+        Set.is_subset(Set.intersect(left, right), left) 
+         && Set.is_subset(Set.intersect(left, right), right) 
+    }
+  }
+
+
+  property("set intersection with itself is that same set") {
+    forAll {
+      (set: Set[Int]) =>
+        Set.is_subset(set, Set.intersect(set, set)) 
+          && set.size() == Set.intersect(set, set).size()
+    }
+  }
+
+
+  property("union should return set that not smaller than parameters") {
+    forAll { 
+      (left: Set[Int], right: Set[Int]) =>
+        Set.union(left, right).size() >= left.size().max(right.size())
+    }
+  }
+
+
+  property("set union with itself is that same set") {
+    forAll {
+      (set: Set[Int]) =>
+        Set.is_subset(set, Set.union(set, set)) 
+          && set.size() == Set.union(set, set).size()
+    }
+  }
+
+
+  property("union should return set that contains parameters") {
+    forAll{
+      (left: Set[Int], right: Set[Int]) =>
+        Set.is_subset(left, Set.union(left, right)) 
+         && Set.is_subset(right, Set.union(left, right)) 
+    }
+  }
+
+
+  
 }
