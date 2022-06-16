@@ -110,5 +110,15 @@ class SetSuite extends ScalaCheckSuite {
   }
 
 
-  
+  property("map for set must be equal to set, constructed with map for sequence") {
+    def f (x: Int): Int = x*x - x + 2;
+    forAll{
+      (xs: Seq[Int]) =>
+        Set.is_subset(
+          Set.map(Set(xs*), f),
+          Set(xs.distinct.map(f)*)
+        ) 
+        && Set.map(Set(xs*), f).size() == Set(xs.distinct.map(f)*).size()
+    }
+  }
 }
